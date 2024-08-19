@@ -1,0 +1,28 @@
+[gd_scene load_steps=3 format=3 uid="uid://vgqfhhma4pg6"]
+
+[ext_resource type="Script" path="res://scene/scene_player.gd" id="1_pydkj"]
+[ext_resource type="Texture2D" uid="uid://bgthymj8hgl3m" path="res://graphic_ship/PngItem_5295731.png" id="1_tftbt"]
+
+[node name="Player" type="CharacterBody2D"]
+scale = Vector2(0.97, 0.97)
+script = ExtResource("1_pydkj")
+
+[node name="Ship_Space" type="Sprite2D" parent="."]
+position = Vector2(2.06186, 1.42109e-14)
+scale = Vector2(0.075, 0.075)
+texture = ExtResource("1_tftbt")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+position = Vector2(0.529117, 8.49217)
+scale = Vector2(0.098831, 0.0910776)
+polygon = PackedVector2Array(-300.667, -789.316, 291.558, -789.316, 525.773, -257.732, 630.95, 291.613, 578.794, 551.955, 411.895, 608.551, -380.877, 608.551, -558.208, 574.593, -620.795, 268.974, -485.19, -251.71)
+
+[node name="LaserStartPos" type="Marker2D" parent="."]
+position = Vector2(1.03093, -67.0103)
+
+[node name="LaserTimer" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
+[connection signal="laser" from="." to="." method="_on_laser"]
+[connection signal="timeout" from="LaserTimer" to="." method="_on_laser_timer_timeout"]

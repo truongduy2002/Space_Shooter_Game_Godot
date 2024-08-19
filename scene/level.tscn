@@ -1,0 +1,127 @@
+[gd_scene load_steps=17 format=3 uid="uid://c5y1twanykyt4"]
+
+[ext_resource type="Texture2D" uid="uid://bk4dn4hyt1rsl" path="res://BG_graphic/galaxy.png" id="1_25hgm"]
+[ext_resource type="Script" path="res://scene/level.gd" id="1_y73bh"]
+[ext_resource type="PackedScene" uid="uid://vgqfhhma4pg6" path="res://scene/scece_player.tscn" id="2_5ppvr"]
+[ext_resource type="Texture2D" uid="uid://iimk5dni0od3" path="res://starGP/star1.png" id="4_231d4"]
+[ext_resource type="Texture2D" uid="uid://csjiwql0u13nf" path="res://starGP/star2.png" id="5_w60te"]
+[ext_resource type="Texture2D" uid="uid://b5omu57rpij57" path="res://starGP/star3.png" id="6_i4471"]
+[ext_resource type="Texture2D" uid="uid://ctj1c67hifu5h" path="res://starGP/star4.png" id="7_2d0jg"]
+[ext_resource type="Texture2D" uid="uid://ct1r2a8u2lf4j" path="res://starGP/star5.png" id="8_5s2ey"]
+[ext_resource type="Texture2D" uid="uid://byaqk6lct0lkk" path="res://starGP/star6.png" id="9_m7xok"]
+[ext_resource type="Texture2D" uid="uid://cb3omesa6tjfc" path="res://starGP/star7.png" id="10_mdtmo"]
+[ext_resource type="Texture2D" uid="uid://bfrsf13a7oeeu" path="res://starGP/star8.png" id="11_obvhh"]
+[ext_resource type="Texture2D" uid="uid://cw6hujbfepoh1" path="res://starGP/star9.png" id="12_iykwm"]
+[ext_resource type="PackedScene" uid="uid://xhqa7m7yll4a" path="res://scene/ui.tscn" id="13_kj30r"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_uojse"]
+size = Vector2(164.005, 711.75)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tjq1l"]
+size = Vector2(1273, 124.125)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_nt5nk"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_231d4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_w60te")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_i4471")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_2d0jg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_5s2ey")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_m7xok")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_mdtmo")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_obvhh")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_iykwm")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="Level" type="Node2D"]
+position = Vector2(-2, -1)
+script = ExtResource("1_y73bh")
+
+[node name="BackGround" type="Sprite2D" parent="."]
+position = Vector2(645, 362)
+scale = Vector2(2.03434, 1.70504)
+texture = ExtResource("1_25hgm")
+metadata/_edit_lock_ = true
+
+[node name="Player" parent="." instance=ExtResource("2_5ppvr")]
+position = Vector2(503, 462)
+scale = Vector2(0.86, 0.86)
+collision_mask = 6
+
+[node name="Border" type="Node2D" parent="."]
+metadata/_edit_lock_ = true
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Border"]
+collision_layer = 4
+
+[node name="Right_Wall" type="CollisionShape2D" parent="Border/StaticBody2D"]
+position = Vector2(1365, 361)
+shape = SubResource("RectangleShape2D_uojse")
+metadata/_edit_lock_ = true
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="Border"]
+collision_layer = 4
+
+[node name="Left_Wall" type="CollisionShape2D" parent="Border/StaticBody2D2"]
+position = Vector2(-81, 361)
+shape = SubResource("RectangleShape2D_uojse")
+metadata/_edit_lock_ = true
+
+[node name="StaticBody2D3" type="StaticBody2D" parent="Border"]
+collision_layer = 4
+
+[node name="Up_Wall" type="CollisionShape2D" parent="Border/StaticBody2D3"]
+position = Vector2(644, -59)
+shape = SubResource("RectangleShape2D_tjq1l")
+metadata/_edit_lock_ = true
+
+[node name="StaticBody2D4" type="StaticBody2D" parent="Border"]
+collision_layer = 4
+
+[node name="Down_Wall" type="CollisionShape2D" parent="Border/StaticBody2D4"]
+position = Vector2(644, 785)
+shape = SubResource("RectangleShape2D_tjq1l")
+metadata/_edit_lock_ = true
+
+[node name="Meteor_Timer" type="Timer" parent="."]
+wait_time = 0.3
+autostart = true
+
+[node name="meteors" type="Node2D" parent="."]
+metadata/_edit_lock_ = true
+
+[node name="Lasers" type="Node2D" parent="."]
+metadata/_edit_lock_ = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.225, 0.225)
+sprite_frames = SubResource("SpriteFrames_nt5nk")
+frame = 2
+frame_progress = 0.0470332
+
+[node name="UI" parent="." instance=ExtResource("13_kj30r")]
+
+[connection signal="laser" from="Player" to="." method="_on_player_laser"]
+[connection signal="timeout" from="Meteor_Timer" to="." method="_on_meteor_timer_timeout"]
